@@ -48,7 +48,7 @@ public class CampaignListProducer implements Serializable {
         spenden.add(donation2);
         
         Campaign campaign1 = new Campaign();
-        campaign1.setName("Latzhose fuer Calvin");
+        campaign1.setName("Latzhose für Calvin");
         campaign1.setTargetAmount(1000d);
         campaign1.setAmountDonatedSoFar(258d);
         campaign1.setDonationMinimum(20d);
