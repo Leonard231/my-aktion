@@ -4,6 +4,9 @@ import model.Campaign;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import data.CampaignProducer;
+
 import java.io.Serializable;
 
 
@@ -16,13 +19,16 @@ public class ListCampaignsController implements Serializable {
      */
     private static final long serialVersionUID = 1461895254521475653L;
 
+    @Inject
+    private CampaignProducer campaignProducer;
+    
     public String doAddCampaign() {
-        System.out.println("Add Campaign");
+        campaignProducer.prepareAddCampaign();
         return Pages.EDIT_CAMPAIGN;
     }
     
     public String doEditCampaign(Campaign campaign) {
-        System.out.println("Edit Campaign " + campaign);
+        campaignProducer.prepareEditCampaign(campaign);
         return Pages.EDIT_CAMPAIGN;
     }
     
@@ -32,7 +38,7 @@ public class ListCampaignsController implements Serializable {
     }
     
     public String doListDonations(Campaign campaign) {
-        System.out.println("List DOnations of Campaign" + campaign);
+        System.out.println("List Donations of Campaign" + campaign);
         return Pages.LIST_CAMPAIGNS;
     }
     
