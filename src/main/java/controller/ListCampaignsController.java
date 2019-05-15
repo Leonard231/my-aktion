@@ -38,8 +38,8 @@ public class ListCampaignsController implements Serializable {
     }
     
     public String doListDonations(Campaign campaign) {
-        System.out.println("List Donations of Campaign" + campaign);
-        return Pages.LIST_CAMPAIGNS;
+        campaignProducer.setSelectedCampaign(campaign);
+        return Pages.LIST_DONATIONS;
     }
     
     public void doDeleteCampaign(Campaign campaign) {
