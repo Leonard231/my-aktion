@@ -2,11 +2,11 @@ package data;
 
 import model.Campaign;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import java.io.Serializable;
 
 @SessionScoped
-@Named
 public class CampaignProducer implements Serializable {
 
     /**
@@ -21,6 +21,8 @@ public class CampaignProducer implements Serializable {
     private Campaign campaign;
     private Mode mode;
     
+    @Named
+    @Produces
     public Campaign getSelectedCampaign() {
         return campaign;
     }
@@ -29,6 +31,8 @@ public class CampaignProducer implements Serializable {
         this.campaign = campaign;
     }
     
+    @Named
+    @Produces
     public boolean isAddMode() {
         return mode == Mode.ADD;
     }

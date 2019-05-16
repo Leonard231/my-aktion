@@ -4,14 +4,19 @@ import model.Account;
 import model.Campaign;
 import model.Donation;
 import model.Donation.Status;
+import util.Events.Added;
+import util.Events.Deleted;
+
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 @SessionScoped
-@Named
 public class CampaignListProducer implements Serializable {
 
     /**
@@ -20,12 +25,23 @@ public class CampaignListProducer implements Serializable {
     private static final long serialVersionUID = 6458083309646156630L;
     private List<Campaign> campaigns;
     
-    public CampaignListProducer() {
+    @PostConstruct
+    public void init() {
         this.campaigns = createMockCampaigns();
     }
     
+    @Produces
+    @Named
     public List<Campaign> getCampaigns() {
         return this.campaigns;
+    }
+    
+    public void onCampaignAdded(@Observes @Added Campaign campaign) {
+    	getCampaigns().add(campaign);
+    }
+    
+    public void onCampaignDeleted(@Observes @Deleted Campaign campaign) {
+    	getCampaigns().remove(campaign);
     }
     
     public List<Campaign> createMockCampaigns() {
