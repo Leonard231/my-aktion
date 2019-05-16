@@ -1,8 +1,8 @@
 package controller;
 
-import data.CampaignListProducer;
 import model.Campaign;
 import util.Events.Added;
+import util.Events.Updated;
 import data.CampaignProducer;
 
 import javax.enterprise.event.Event;
@@ -24,10 +24,16 @@ public class EditCampaignController implements Serializable {
 	@Added
 	private Event<Campaign> campaignAddEvent;
 	
+	@Inject
+	@Updated
+	private Event<Campaign> campaignUpdateEvent;
+	
 	
 	public String doSave() {
 		if(campaignProducer.isAddMode()) {
 			campaignAddEvent.fire(campaignProducer.getSelectedCampaign());
+		} else {
+			campaignUpdateEvent.fire(campaignProducer.getSelectedCampaign());
 		}
 		return Pages.LIST_CAMPAIGNS;
 	}

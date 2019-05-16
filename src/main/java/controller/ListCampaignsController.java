@@ -3,6 +3,7 @@ package controller;
 import model.Campaign;
 import util.Events.Deleted;
 
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -13,7 +14,7 @@ import data.CampaignProducer;
 import java.io.Serializable;
 
 
-@ViewScoped
+@SessionScoped
 @Named
 public class ListCampaignsController implements Serializable {
 
