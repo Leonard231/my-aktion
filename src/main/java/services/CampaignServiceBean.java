@@ -18,6 +18,7 @@ public class CampaignServiceBean implements CampaignService {
 		
 		TypedQuery<Campaign> query = entityManager.createNamedQuery(Campaign.findAll, Campaign.class);
 		List<Campaign> campaigns = query.getResultList();
+		campaigns.forEach(campaign -> campaign.setAmountDonatedSoFar(getAmountDonatedSoFar(campaign)));
 		return campaigns;
 	}
 	
@@ -40,4 +41,15 @@ public class CampaignServiceBean implements CampaignService {
 		entityManager.merge(campaign);
 	}
 
+	private Double getAmountDonatedSoFar(Campaign campaign) {
+		TypedQuery<Double> query = entityManager.createNamedQuery(Campaign.getAmountDonatedSoFar, Double.class);
+		query.setParameter("campaign", campaign);
+		Double result = query.getSingleResult();
+		if(result==null) {
+			result = 0d;
+		}
+		
+		return result;
+	}
+	
 }

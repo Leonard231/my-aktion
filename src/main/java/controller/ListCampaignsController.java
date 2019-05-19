@@ -1,6 +1,8 @@
 package controller;
 
 import model.Campaign;
+import model.Donation;
+import services.DonationService;
 import util.Events.Deleted;
 
 import javax.enterprise.context.SessionScoped;
@@ -12,6 +14,7 @@ import javax.inject.Named;
 import data.CampaignProducer;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 @SessionScoped
@@ -28,6 +31,9 @@ public class ListCampaignsController implements Serializable {
     
     @Inject
     private Event<Campaign> campaignDeleteEvent;
+    
+    @Inject
+    private DonationService donationService;
     
     @Deleted
     private Campaign campaignToDelete;
@@ -48,6 +54,8 @@ public class ListCampaignsController implements Serializable {
     }
     
     public String doListDonations(Campaign campaign) {
+    	final List<Donation> donations = donationService.getDonationList(campaign.getId());
+    	campaign.setDonations(donations);
         campaignProducer.setSelectedCampaign(campaign);
         return Pages.LIST_DONATIONS;
     }

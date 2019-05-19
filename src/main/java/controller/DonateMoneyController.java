@@ -13,6 +13,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import model.Donation;
+import model.Donation.Status;
+import services.DonationService;
 
 @ViewScoped
 @Named
@@ -34,12 +36,17 @@ public class DonateMoneyController implements Serializable {
 	@Inject
 	private Logger logger;
 	
+	@Inject
+	private DonationService donationService;
+	
 	@PostConstruct
 	public void init() {
 		this.donation = new Donation();
 	}
 	
 	public String doDonation() {
+		getDonation().setStatus(Status.IN_PROCESS);
+		donationService.addDonation(getCampaignId(), getDonation());
 		logger.log(Level.INFO, "log.donateMoney.thank_you", new Object[] {getDonation().getDonorName(), getDonation().getAmount()});
 		final ResourceBundle resourceBundle = facesContext.getApplication().getResourceBundle(facesContext, "msg");
 		final String msg = resourceBundle.getString("donateMoney.thank_you");
@@ -48,8 +55,7 @@ public class DonateMoneyController implements Serializable {
 		return Pages.DONATE_MONEY;
 	}
 	
-	
-	
+
 	public String getTextColor() {
 		return textColor;
 	}
