@@ -38,7 +38,7 @@ public class EditDonationFormController implements Serializable {
 	}
 	
 	public String getUrl() {
-		return getAppUrl() + "/" + Pages.DONATE_MONEY + ".jsf" + "?bgColor=" + bgColor + "&textColor=" + textColor + "&campaignId" + campaignProducer.getSelectedCampaign().getId();
+		return getAppUrl() + "/" + Pages.DONATE_MONEY + ".jsf" + "?bgColor=" + bgColor + "&textColor=" + textColor + "&campaignId=" + campaignProducer.getSelectedCampaign().getId();
 	}
 
 	public String getTextColor() {

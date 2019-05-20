@@ -2,6 +2,8 @@ package services;
 
 import java.util.List;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -17,6 +19,7 @@ public class DonationServiceBean implements DonationService {
 	private EntityManager entityManager;
 
 	@Override
+	@RolesAllowed("Organizer")
 	public List<Donation> getDonationList(Long campaignnId) {
 		Campaign managedCampaign = entityManager.find(Campaign.class, campaignnId);
 		List<Donation> donations = managedCampaign.getDonations();
@@ -25,6 +28,7 @@ public class DonationServiceBean implements DonationService {
 	}
 
 	@Override
+	@PermitAll
 	public void addDonation(Long campaignId, Donation donation) {
 		Campaign managedCampaign = entityManager.find(Campaign.class, campaignId);
 		donation.setCampaign(managedCampaign);

@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 public class Donation {
 
 	@NotNull(message = "{donation.amount.notNull}")
-    @DecimalMin(value = "1.00", message = "{donation.amount.decimalMin}")
+    //@DecimalMin(value = "1.00", message = "{donation.amount.decimalMin}")
     private Double amount;
 	
 	@NotNull

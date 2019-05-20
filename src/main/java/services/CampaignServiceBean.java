@@ -2,31 +2,41 @@ package services;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import model.Campaign;
+import model.Organizer;
 
+@RolesAllowed("Organizer")
 @Stateless
 public class CampaignServiceBean implements CampaignService {
 
 	@Override
 	public List<Campaign> getAllCampaigns() {
 		
-		TypedQuery<Campaign> query = entityManager.createNamedQuery(Campaign.findAll, Campaign.class);
+		TypedQuery<Campaign> query = entityManager.createNamedQuery(Campaign.findByOrganizer, Campaign.class);
+		query.setParameter("organizer", getLoggedinOrganizer());
 		List<Campaign> campaigns = query.getResultList();
 		campaigns.forEach(campaign -> campaign.setAmountDonatedSoFar(getAmountDonatedSoFar(campaign)));
 		return campaigns;
 	}
+	
+	@Resource
+	private SessionContext sessionContext;
 	
 	@Inject
 	EntityManager entityManager;
 
 	@Override
 	public void addCampaign(Campaign campaign) {
+		Organizer organizer = getLoggedinOrganizer();
+		campaign.setOrganizer(organizer);
 		entityManager.persist(campaign);	
 	}
 
@@ -50,6 +60,12 @@ public class CampaignServiceBean implements CampaignService {
 		}
 		
 		return result;
+	}
+	
+	private Organizer getLoggedinOrganizer() {
+		String organizerEmail = sessionContext.getCallerPrincipal().getName();
+		Organizer organizer = entityManager.createNamedQuery(Organizer.findByEmail, Organizer.class).setParameter("email", organizerEmail).getSingleResult();
+		return organizer;		
 	}
 	
 }
