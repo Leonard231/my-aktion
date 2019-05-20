@@ -5,13 +5,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
+@NamedQueries({
+	@NamedQuery(name = Donation.findByStatus, query = "SELECT d FROM Donation d WHERE d.status = :status")
+})
+
 @Entity
 public class Donation {
 
+	public static final String findByStatus = "Donation.findByStatus";
+	
 	@NotNull(message = "{donation.amount.notNull}")
     //@DecimalMin(value = "1.00", message = "{donation.amount.decimalMin}")
     private Double amount;
