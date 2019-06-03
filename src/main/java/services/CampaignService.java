@@ -1,14 +1,19 @@
 package services;
 
-import java.util.List;
 import model.Campaign;
 
+import java.util.List;
+
 public interface CampaignService {
-	List<Campaign> getAllCampaigns();
-	
-	void addCampaign(Campaign campaign);
-	
-	void deleteCampaign(Campaign campaign);
-	
-	void updateCampaign(Campaign campaign);
+    List<Campaign> getAllCampaigns();
+
+    Campaign addCampaign(Campaign campaign);
+
+    void deleteCampaign(Campaign campaign);
+
+    Campaign updateCampaign(Campaign campaign);
+
+    void deleteCampaign(Long campaignId);
+
+    Campaign getCampaign(Long campaignId);
 }
